@@ -2,14 +2,19 @@ import * as React from 'react';
 import Svg, {Path} from 'react-native-svg';
 import IIconProps from '../interfaces/IIconProps';
 
-const StarIcon = ({size, color}: IIconProps) => (
+interface IStarIconProps extends IIconProps {
+  opacity: number;
+}
+
+const StarIcon = ({size, color, opacity}: IStarIconProps) => (
   <Svg
     fill="none"
     viewBox="0 0 24 24"
     stroke-width="1.5"
     width={size}
     height={size}
-    stroke={color}>
+    stroke={color}
+    opacity={opacity}>
     <Path
       stroke-linecap="round"
       stroke-linejoin="round"

@@ -109,7 +109,8 @@ export default function HomeScreen() {
         style={{
           backgroundColor: '#fff',
           paddingHorizontal: 10,
-        }}>
+        }}
+        contentContainerStyle={styles.container}>
         {/* {Categories} */}
         <View
           style={{
@@ -144,5 +145,8 @@ const styles = StyleSheet.create({
   },
   flatListStyle: {
     marginTop: 16,
+  },
+  container: {
+    paddingBottom: 120,
   },
 });

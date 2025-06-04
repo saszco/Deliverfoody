@@ -1,7 +1,8 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, FlatList} from 'react-native';
 import React from 'react';
 import ArrowRightIcon from '../icons/ArrowRightIcon';
 import RestaurantCard from './RestaurantCard';
+import RESTAURANT_CARDS from '../data/restaurantCards';
 
 type FeaturedRowProps = {
   title: string;
@@ -9,6 +10,10 @@ type FeaturedRowProps = {
 };
 
 const FeaturedRow = ({title, description}: FeaturedRowProps) => {
+  const filteredCards = RESTAURANT_CARDS.filter(
+    card => card.featuredRowTitle === title,
+  );
+
   return (
     <View>
       <View style={styles.textWrapper}>
@@ -22,22 +27,24 @@ const FeaturedRow = ({title, description}: FeaturedRowProps) => {
         horizontal
         contentContainerStyle={styles.container}
         showsHorizontalScrollIndicator={false}>
-        <RestaurantCard
-          id="1"
-          imgUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMyFUlccR5_HdpLvs9pLstFkXOS6YkwTJfbA&s"
-          title="McDonald's"
-          rating={4.8}
-          genre="Fast Food"
-          address="Vadyma Hetmana St, 1, Kyiv"
-          short_description="Very good and tasty fast food!"
-          dishes={[
-            'BigMac',
-            'BigTasty',
-            'Double cheeseburger',
-            'Royal cheeseburger',
-          ]}
-          long="longitude"
-          lat="latitude"
+        <FlatList
+          data={filteredCards}
+          keyExtractor={item => item.id}
+          horizontal
+          renderItem={({item}) => (
+            <RestaurantCard
+              id={item.id}
+              imgUrl={item.imgUrl}
+              title={item.title}
+              rating={item.rating}
+              genre={item.genre}
+              address={item.address}
+              short_description={item.short_description}
+              dishes={item.dishes}
+              long={item.long}
+              lat={item.lat}
+            />
+          )}
         />
       </ScrollView>
     </View>
