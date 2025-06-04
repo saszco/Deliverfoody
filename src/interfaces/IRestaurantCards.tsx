@@ -1,3 +1,5 @@
+import IDish from './IDish';
+
 interface IRestaurantCards {
   id: string;
   featuredRowTitle: string;
@@ -7,7 +9,7 @@ interface IRestaurantCards {
   genre: string;
   address: string;
   short_description: string;
-  dishes: string[];
+  dishes: IDish[];
   long: string;
   lat: string;
 }
