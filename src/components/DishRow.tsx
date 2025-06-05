@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
 import Currency from 'react-currency-formatter';
 import MinusCircleIcon from '../icons/MinusCircleIcon';
 import PlusCircleIcon from '../icons/PlusCircleIcon';
+import {useAppDispatch, useAppSelector} from '../hooks/reduxHooks';
+import {
+  addItemToBasket,
+  removeItemFromBasket,
+  selectBasketItems,
+} from '../store/slices/basketSlice';
+import IBasket from '../interfaces/IBasket';
 
 type DishRowProps = {
+  restaurantId: string;
   id: string;
   name: string;
   description: string;
@@ -12,8 +20,40 @@ type DishRowProps = {
   dishImgUrl: string;
 };
 
-const DishRow = ({id, name, description, price, dishImgUrl}: DishRowProps) => {
+const DishRow = ({
+  restaurantId,
+  id,
+  name,
+  description,
+  price,
+  dishImgUrl,
+}: DishRowProps) => {
   const [isPressed, setIsPressed] = useState(false);
+  const [quantity, setQuantity] = useState(0);
+  const dispatch = useAppDispatch();
+  const basket = useAppSelector(selectBasketItems);
+
+  useEffect(() => {
+    const existingItem = basket.find(
+      item => item.dishId === id && item.restaurantId === restaurantId,
+    );
+
+    if (existingItem) {
+      setQuantity(existingItem.quantity);
+    } else {
+      setQuantity(0);
+    }
+  }, [id, basket, restaurantId]);
+
+  function onAddItem(dishId: string) {
+    dispatch(addItemToBasket({restaurantId, dishId}));
+  }
+
+  function onRemoveItem(dishId: string) {
+    dispatch(removeItemFromBasket({restaurantId, dishId}));
+  }
+
+  //   console.log('Basket items:', basket);
 
   return (
     <>
@@ -40,13 +80,13 @@ const DishRow = ({id, name, description, price, dishImgUrl}: DishRowProps) => {
       {isPressed && (
         <View style={styles.addItemWrapper}>
           <View style={styles.buttonsWrapper}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => onRemoveItem(id)}>
               <MinusCircleIcon size={42} color="#d5e2eb" />
             </TouchableOpacity>
 
-            <Text>0</Text>
+            <Text>{quantity}</Text>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => onAddItem(id)}>
               <PlusCircleIcon size={42} color="#03396c" />
             </TouchableOpacity>
           </View>

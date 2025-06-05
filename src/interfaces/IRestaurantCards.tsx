@@ -1,6 +1,6 @@
 import IDish from './IDish';
 
-interface IRestaurantCards {
+interface IRestaurantCard {
   id: string;
   featuredRowTitle: string;
   imgUrl: string;
@@ -14,4 +14,4 @@ interface IRestaurantCards {
   lat: string;
 }
 
-export default IRestaurantCards;
+export default IRestaurantCard;

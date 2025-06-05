@@ -9,8 +9,7 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
-import React, {useLayoutEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import React from 'react';
 import ChevronDownIcon from '../icons/ChevronDownIcons';
 import AdjustmentsIcon from '../icons/AdjustmentsIcon';
 import SearchIcon from '../icons/SearchIcon';
@@ -20,14 +19,6 @@ import FeaturedRow from '../components/FeaturedRow';
 import FEATURED_ROWS from '../data/featuredRows';
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
   return (
     <SafeAreaView style={{backgroundColor: '#ffffff', paddingTop: 10}}>
       {/* {Header} */}

@@ -9,7 +9,6 @@ import {
   FlatList,
 } from 'react-native';
 import IRestaurantCards from '../interfaces/IRestaurantCards';
-import {useLayoutEffect} from 'react';
 import ArrowLeftIcon from '../icons/ArrowLeftIcon';
 import StarIcon from '../icons/StarIcon';
 import LocationMarkerIcon from '../icons/LocationMarkerIcon';
@@ -22,12 +21,6 @@ export default function RestaurantScreen() {
 
   const route = useRoute();
   const restaurantData = route.params as IRestaurantCards;
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
 
   function handleGoHomeScreen() {
     navigation.goBack();
@@ -91,6 +84,7 @@ export default function RestaurantScreen() {
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <DishRow
+              restaurantId={restaurantData.id}
               id={item.id}
               name={item.name}
               description={item.description}
