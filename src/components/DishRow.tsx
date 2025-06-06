@@ -9,7 +9,6 @@ import {
   removeItemFromBasket,
   selectBasketItems,
 } from '../store/slices/basketSlice';
-import IBasket from '../interfaces/IBasket';
 
 type DishRowProps = {
   restaurantId: string;
