@@ -2,11 +2,10 @@ import {View, Text, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import React from 'react';
 import LocationMarkerIcon from '../icons/LocationMarkerIcon';
 import StarIcon from '../icons/StarIcon';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import IDish from '../interfaces/IDish';
+import {useNavigate} from '../hooks/useNavigation';
 
-type RestaurantCardProps = {
+export type RestaurantCardProps = {
   id: string;
   imgUrl: string;
   title: string;
@@ -19,14 +18,8 @@ type RestaurantCardProps = {
   lat: string;
 };
 
-type RootStackParamList = {
-  Restaurant: RestaurantCardProps;
-};
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
 const RestaurantCard = (props: RestaurantCardProps) => {
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigate();
 
   function onRestaurantCardPress() {
     navigation.navigate('Restaurant', {...props});

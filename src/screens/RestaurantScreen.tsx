@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
+import React from 'react';
 import IRestaurantCards from '../interfaces/IRestaurantCards';
 import ArrowLeftIcon from '../icons/ArrowLeftIcon';
 import StarIcon from '../icons/StarIcon';
@@ -15,6 +16,7 @@ import LocationMarkerIcon from '../icons/LocationMarkerIcon';
 import QuestionMarkCircleIcon from '../icons/QuestionMarkCircleIcon';
 import ChevronRightIcon from '../icons/ChevronRightIcon';
 import DishRow from '../components/DishRow';
+import BasketIcon from '../components/BasketIcon';
 
 export default function RestaurantScreen() {
   const navigation = useNavigation();
@@ -27,74 +29,80 @@ export default function RestaurantScreen() {
   }
 
   return (
-    <ScrollView>
-      <View style={styles.viewMainContainer}>
-        <Image
-          source={{
-            uri: restaurantData.imgUrl,
-          }}
-          style={styles.image}
-        />
+    <>
+      <BasketIcon />
 
-        <TouchableOpacity
-          style={styles.touchableIconContainer}
-          onPress={handleGoHomeScreen}>
-          <ArrowLeftIcon size={20} color="#03396c" />
-        </TouchableOpacity>
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.viewMainContainer}>
+          <Image
+            source={{
+              uri: restaurantData.imgUrl,
+            }}
+            style={styles.image}
+          />
 
-      <View style={styles.contentView}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.title}>{restaurantData.title}</Text>
-          <View style={styles.shortInfoWrapper}>
-            <View style={styles.iconWrapper}>
-              <StarIcon color="green" size={22} opacity={0.6} />
-              <Text style={styles.textWrapper}>
-                <Text style={{color: '#4c8f00'}}>{restaurantData.rating}</Text>{' '}
-                • {restaurantData.genre}
-              </Text>
-            </View>
-
-            <View style={styles.iconWrapper}>
-              <LocationMarkerIcon color="#03396c" size={22} opacity={0.4} />
-              <Text style={{fontSize: 12, color: '#03396c'}}>
-                {restaurantData.address}
-              </Text>
-            </View>
-          </View>
-
-          <Text style={styles.shortDescription}>
-            {restaurantData.short_description}
-          </Text>
+          <TouchableOpacity
+            style={styles.touchableIconContainer}
+            onPress={handleGoHomeScreen}>
+            <ArrowLeftIcon size={20} color="#03396c" />
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.questionMarkWrapper}>
-          <QuestionMarkCircleIcon size={22} color="#005b96" />
-          <Text style={styles.allergyTextWrapper}>Have a food allergy?</Text>
-          <ChevronRightIcon size={22} color="#03396c" />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.contentView}>
+          <View style={styles.titleWrapper}>
+            <Text style={styles.title}>{restaurantData.title}</Text>
+            <View style={styles.shortInfoWrapper}>
+              <View style={styles.iconWrapper}>
+                <StarIcon color="green" size={22} opacity={0.6} />
+                <Text style={styles.textWrapper}>
+                  <Text style={{color: '#4c8f00'}}>
+                    {restaurantData.rating}
+                  </Text>{' '}
+                  • {restaurantData.genre}
+                </Text>
+              </View>
 
-      <View>
-        <Text style={styles.menuText}>Menu</Text>
+              <View style={styles.iconWrapper}>
+                <LocationMarkerIcon color="#03396c" size={22} opacity={0.4} />
+                <Text style={{fontSize: 12, color: '#03396c'}}>
+                  {restaurantData.address}
+                </Text>
+              </View>
+            </View>
 
-        {/* {Dishrows} */}
-        <FlatList
-          data={restaurantData.dishes}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <DishRow
-              restaurantId={restaurantData.id}
-              id={item.id}
-              name={item.name}
-              description={item.description}
-              price={item.price}
-              dishImgUrl={item.dishImgUrl}
-            />
-          )}
-        />
-      </View>
-    </ScrollView>
+            <Text style={styles.shortDescription}>
+              {restaurantData.short_description}
+            </Text>
+          </View>
+
+          <TouchableOpacity style={styles.questionMarkWrapper}>
+            <QuestionMarkCircleIcon size={22} color="#005b96" />
+            <Text style={styles.allergyTextWrapper}>Have a food allergy?</Text>
+            <ChevronRightIcon size={22} color="#03396c" />
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <Text style={styles.menuText}>Menu</Text>
+
+          {/* {Dishrows} */}
+          <FlatList
+            data={restaurantData.dishes}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <DishRow
+                restaurantId={restaurantData.id}
+                id={item.id}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                dishImgUrl={item.dishImgUrl}
+              />
+            )}
+          />
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
@@ -164,5 +172,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     fontSize: 22,
     fontWeight: '600',
+  },
+  container: {
+    paddingBottom: 120,
   },
 });

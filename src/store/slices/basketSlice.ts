@@ -2,6 +2,7 @@ import {createSlice, original} from '@reduxjs/toolkit';
 import {PayloadAction} from '@reduxjs/toolkit';
 import IBasket from '../../interfaces/IBasket';
 import {RootState} from '../store';
+import restaurantCards from '../../data/restaurantCards';
 
 const initialState = {
   items: <IBasket[]>[],
@@ -63,3 +64,27 @@ export const {addItemToBasket, removeItemFromBasket} = basketSlice.actions;
 export default basketReducer;
 
 export const selectBasketItems = (state: RootState) => state.basket.items;
+
+export const selectBasketTotalCount = (state: RootState) => {
+  return state.basket.items.reduce((total, item) => total + item.quantity, 0);
+};
+
+export const selectBasketTotalPrice = (state: RootState) => {
+  return state.basket.items.reduce((total, item) => {
+    const restaurant = restaurantCards.find(
+      rest => rest.id === item.restaurantId,
+    );
+
+    if (!restaurant) {
+      return total;
+    }
+
+    const dish = restaurant.dishes.find(product => product.id === item.dishId);
+
+    if (!dish) {
+      return total;
+    }
+
+    return total + dish.price * item.quantity;
+  }, 0);
+};
